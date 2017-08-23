@@ -1,9 +1,12 @@
 package com.harrisonbrock.movieapp;
 
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.harrisonbrock.movieapp.Model.Movie;
@@ -29,6 +32,17 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
+
+        // onItemClick
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailActivity.MOVIE_POSITION, position);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

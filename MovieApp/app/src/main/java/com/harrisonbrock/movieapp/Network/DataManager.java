@@ -16,12 +16,17 @@ public class DataManager {
 
     private List<Movie> mMovies;
 
-    public static DataManager getInstance(String soryBy) {
+    public static DataManager getInstance(String sortBy) {
 
         if(instance == null) {
             instance = new DataManager();
-            instance.initializeMovie(soryBy);
+            instance.initializeMovie(sortBy);
         }
+
+        return instance;
+    }
+
+    public static DataManager getInstance() {
 
         return instance;
     }
