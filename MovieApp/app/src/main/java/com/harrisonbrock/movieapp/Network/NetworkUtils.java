@@ -111,7 +111,7 @@ public class NetworkUtils {
             }
         }
         catch (IOException e) {
-            Log.e(LOG_TAG, "Eror getting data", e);
+            Log.e(LOG_TAG, "Error getting data", e);
         }
         finally {
             if (httpURLConnection != null) httpURLConnection.disconnect();
