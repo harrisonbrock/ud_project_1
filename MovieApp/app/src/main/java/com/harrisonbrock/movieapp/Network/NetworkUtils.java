@@ -76,7 +76,7 @@ public class NetworkUtils {
      * @return
      * @throws IOException
      */
-    public static String createHttpRequest (URL url) throws IOException {
+    private static String createHttpRequest (URL url) throws IOException {
 
         String jsonRepsone = "";
 

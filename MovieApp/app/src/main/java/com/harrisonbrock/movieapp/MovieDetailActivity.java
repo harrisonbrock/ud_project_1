@@ -36,7 +36,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Picasso.with(this)
                 .load(MovieUtils.getBasePosterUrl()
-                + "w500"
+                + "w185"
                 + movie.getPosterUrl())
                 .into(mPoster);
 
