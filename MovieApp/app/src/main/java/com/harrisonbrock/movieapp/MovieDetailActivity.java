@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailActivity extends AppCompatActivity {
 
     private TextView mTitle;
+    private TextView mPopText;
+    private TextView mReleaseDate;
     private TextView mOverview;
     private ImageView mPoster;
     public static final String MOVIE_POSITION = "com.harrisonbrokc.moveApp.MOVIE_PORTION";
@@ -32,6 +34,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mTitle.setText(movie.getTitle());
 
+        mPopText.setText(String.valueOf(movie.getPopularity()));
+
+       mReleaseDate.setText(movie.getRelaseDate());
+
         mOverview.setText(movie.getOverview());
 
         Picasso.with(this)
@@ -46,6 +52,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
 
         mTitle = (TextView) findViewById(R.id.tv_movie_detail_title);
+        mPopText = (TextView) findViewById(R.id.tv_movie_detail_pop);
+        mReleaseDate = (TextView) findViewById(R.id.tv_movie_detail_rd);
         mOverview = (TextView) findViewById(R.id.tv_movie_detail_overview);
         mPoster = (ImageView) findViewById(R.id.img_movie_detail_poster);
 

@@ -82,8 +82,9 @@ public class MovieUtils {
                 String posterUrl = currentMovie.getString("poster_path");
                 String overview = currentMovie.getString("overview");
                 Double popularity = currentMovie.getDouble("popularity");
+                String relaseDate = currentMovie.getString("release_date");
 
-                Movie newMovie = new Movie(title, posterUrl, overview, popularity);
+                Movie newMovie = new Movie(title, posterUrl, overview, popularity, relaseDate);
 
                 movies.add(newMovie);
             }

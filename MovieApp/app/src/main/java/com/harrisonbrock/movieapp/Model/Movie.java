@@ -14,12 +14,14 @@ public class Movie implements Parcelable {
     private String mPosterUrl;
     private String mOverview;
     private Double mPopularity;
+    private String mRelaseDate;
 
-    public Movie(String title, String posterUrl, String overview, Double popularity) {
+    public Movie(String title, String posterUrl, String overview, Double popularity, String relaseDate) {
         mTitle = title;
         mPosterUrl = posterUrl;
         mOverview = overview;
         mPopularity = popularity;
+        mRelaseDate = relaseDate;
     }
 
     protected Movie(Parcel in) {
@@ -27,6 +29,7 @@ public class Movie implements Parcelable {
         mPosterUrl = in.readString();
         mOverview = in.readString();
         mPopularity = in.readDouble();
+        mRelaseDate = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -52,6 +55,7 @@ public class Movie implements Parcelable {
         parcel.writeString(mPosterUrl);
         parcel.writeString(mOverview);
         parcel.writeDouble(mPopularity);
+        parcel.writeString(mRelaseDate);
     }
 
     public static String getLogTag() {
@@ -72,5 +76,9 @@ public class Movie implements Parcelable {
 
     public Double getPopularity() {
         return mPopularity;
+    }
+
+    public String getRelaseDate() {
+        return mRelaseDate;
     }
 }
