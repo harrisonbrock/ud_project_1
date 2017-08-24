@@ -23,6 +23,9 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
     private Spinner mSpinner;
     private MoviePosterAdapter mAdapter;
     private String mQuery;
+    private List<String> mSortByList;
+    private ArrayAdapter<String> mArrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,26 +34,23 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         createUI();
 
-        List<String> sortByList = new ArrayList<>();
+        mSortByList = new ArrayList<>();
 
-        sortByList.add("By popular");
-        sortByList.add("By top_rated");
+        mSortByList.add("By popular");
+        mSortByList.add("By top_rated");
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, sortByList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(arrayAdapter);
+        mArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, mSortByList);
+        mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(mArrayAdapter);
 
-        String tempSortBy = mSpinner.getSelectedItem().toString();
-
-        if (tempSortBy.equals(arrayAdapter.getItem(0))) mQuery = "popular";
-        else mQuery = "top_rated";
+        getQuery();
 
         mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
 
         mGridView.setAdapter(mAdapter);
 
-        LoaderManager loaderManager = getLoaderManager();
+        final LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
 
         // onItemClick
@@ -63,6 +63,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
                 startActivity(intent);
             }
         });
+
     }
 
     private void createUI() {
@@ -71,6 +72,16 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         mSpinner = (Spinner) findViewById(R.id.sp_sortBy);
 
+    }
+
+    private String getQuery() {
+
+        String tempSortBy = mSpinner.getSelectedItem().toString();
+
+        if (tempSortBy.equals(mArrayAdapter.getItem(0))) mQuery = "popular";
+        else mQuery = "top_rated";
+
+        return mQuery;
     }
 
     @Override

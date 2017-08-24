@@ -19,6 +19,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mOverview;
     private ImageView mPoster;
     public static final String MOVIE_POSITION = "com.harrisonbrokc.moveApp.MOVIE_PORTION";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
