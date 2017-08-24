@@ -22,6 +22,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
     private GridView mGridView;
     private Spinner mSpinner;
     private MoviePosterAdapter mAdapter;
+    private String mQuery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +33,18 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         List<String> sortByList = new ArrayList<>();
 
-        sortByList.add("popular");
-        sortByList.add("top_rated");
+        sortByList.add("By popular");
+        sortByList.add("By top_rated");
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, sortByList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(arrayAdapter);
+
+        String tempSortBy = mSpinner.getSelectedItem().toString();
+
+        if (tempSortBy.equals(arrayAdapter.getItem(0))) mQuery = "popular";
+        else mQuery = "top_rated";
 
         mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
 
@@ -69,7 +75,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
-        return new MoviePosterLoader(this, "popular");
+        return new MoviePosterLoader(this, mQuery);
     }
 
     @Override
