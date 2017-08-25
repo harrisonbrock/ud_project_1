@@ -70,6 +70,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                getQuery();
                 getLoaderManager()
                         .restartLoader(1, null, MoviePosterListActivity.this);
                 Log.v("Main", "After restart loader: " + mQuery);
@@ -99,6 +100,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         if (tempSortBy.equals(mArrayAdapter.getItem(0))) mQuery = "popular";
         else mQuery = "top_rated";
+
     }
 
     @Override
