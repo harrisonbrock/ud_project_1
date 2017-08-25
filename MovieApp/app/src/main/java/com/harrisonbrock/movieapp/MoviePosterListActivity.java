@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,9 +65,14 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
             }
         });
 
+        Log.v("Main", "Before on select mQuery: " + mQuery);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                getLoaderManager()
+                        .restartLoader(1, null, MoviePosterListActivity.this);
+                Log.v("Main", "After restart loader: " + mQuery);
 
 
             }
@@ -87,14 +93,12 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     }
 
-    private String getQuery() {
+    private void getQuery() {
 
         String tempSortBy = mSpinner.getSelectedItem().toString();
 
         if (tempSortBy.equals(mArrayAdapter.getItem(0))) mQuery = "popular";
         else mQuery = "top_rated";
-
-        return mQuery;
     }
 
     @Override
