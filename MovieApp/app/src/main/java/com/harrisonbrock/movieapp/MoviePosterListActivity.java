@@ -76,6 +76,12 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
             getLoaderManager()
                     .restartLoader(1, null, MoviePosterListActivity.this);
         }
+
+        if (id == R.id.mm_popular) {
+            mQuery = "popular";
+            getLoaderManager()
+                    .restartLoader(1, null, MoviePosterListActivity.this);
+        }
         return super.onOptionsItemSelected(item);
     }
 
