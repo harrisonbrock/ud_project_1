@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.harrisonbrock.movieapp.Model.Movie;
 import com.harrisonbrock.movieapp.Network.MovieUtils;
-import com.harrisonbrock.movieapp.Network.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -20,6 +18,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView mPoster;
     public static final String MOVIE_POSITION = "com.harrisonbrock.movieApp.MOVIE_PORTION";
     public static final String MOVIE_QUERY = "com.harrisonbrock.movieApp.MOVIE_QUERY";
+    public static final String CURRENT_MOVIE_TITEL = "com.harrisonbrock.com.CURRENT_MOVIE_TITEL";
+    public static final String CURRENT_MOVIE_RELEASE_DATE = "com.harrisonbrock.com.CURRENT_MOVIE_RELEASE_DATE";
+    public static final String CURRENT_MOVIE_OVERVIEW = "com.harrisonbrock.CURRENT_MOVIE_OVERVIEW";
+    public static final String CURRENT_MOVIE_POPULARITY = "com.harrisonbrock.CURRENT_MOIVE_POPULARITY";
+    public static final String CURRENT_MOVIE_POSTER_URL = "com.harrisonbrock.CURRENT_MOVIE_POSTER_URL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +33,25 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        int index = intent.getIntExtra(MOVIE_POSITION, -1);
-        String query = intent.getStringExtra(MOVIE_QUERY);
-        Movie movie = NetworkUtils.fetchMovieData(query).get(index);
 
-        mTitle.setText(movie.getTitle());
+        String title = intent.getStringExtra(CURRENT_MOVIE_TITEL);
+        String releaseDate = intent.getStringExtra(CURRENT_MOVIE_RELEASE_DATE);
+        String overview = intent.getStringExtra(CURRENT_MOVIE_OVERVIEW);
+        double popularity = intent.getDoubleExtra(CURRENT_MOVIE_POPULARITY, -1);
+        String posterUrl = intent.getStringExtra(CURRENT_MOVIE_POSTER_URL);
 
-        mPopText.setText(String.valueOf(movie.getPopularity()));
+        mTitle.setText(title);
 
-       mReleaseDate.setText(movie.getRelaseDate());
+        mPopText.setText(String.valueOf(popularity));
 
-        mOverview.setText(movie.getOverview());
+       mReleaseDate.setText(releaseDate);
+
+        mOverview.setText(overview);
 
         Picasso.with(this)
                 .load(MovieUtils.getBasePosterUrl()
                 + "w185"
-                + movie.getPosterUrl())
+                + posterUrl)
                 .into(mPoster);
 
     }

@@ -52,8 +52,22 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailActivity.MOVIE_POSITION, position);
-                intent.putExtra(MovieDetailActivity.MOVIE_QUERY, mQuery);
+
+                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_TITEL, mAdapter
+                        .getItem(position).getTitle());
+
+                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_RELEASE_DATE, mAdapter
+                        .getItem(position).getRelaseDate());
+
+                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_OVERVIEW, mAdapter
+                .getItem(position).getOverview());
+
+                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POPULARITY, mAdapter
+                .getItem(position).getPopularity());
+
+                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POSTER_URL, mAdapter
+                .getItem(position).getPosterUrl());
+
                 startActivity(intent);
             }
         });
