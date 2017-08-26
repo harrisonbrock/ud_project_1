@@ -6,11 +6,12 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Spinner;
 
 import com.harrisonbrock.movieapp.Model.Movie;
 
@@ -21,11 +22,11 @@ public class MoviePosterListActivity extends AppCompatActivity
 implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     private GridView mGridView;
-    private Spinner mSpinner;
     private MoviePosterAdapter mAdapter;
     private String mQuery;
     private List<String> mSortByList;
     private ArrayAdapter<String> mArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +36,8 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         createUI();
 
-        mSortByList = new ArrayList<>();
+        mQuery = "popular";
 
-        mSortByList.add("By popular");
-        mSortByList.add("By top_rated");
-
-        mArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, mSortByList);
-        mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(mArrayAdapter);
-
-        getQuery();
 
         mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
 
@@ -65,43 +57,34 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
             }
         });
 
-        Log.v("Main", "Before on select mQuery: " + mQuery);
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
 
-                getQuery();
-                getLoaderManager()
-                        .restartLoader(1, null, MoviePosterListActivity.this);
-                Log.v("Main", "After restart loader: " + mQuery);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-            }
+        int id = item.getItemId();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
+        if (id == R.id.mm_top_rated) {
+            Log.v("Options Item", "Clicked");
+           mQuery = "top_rated";
+            getLoaderManager()
+                    .restartLoader(1, null, MoviePosterListActivity.this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createUI() {
 
         mGridView = (GridView) findViewById(R.id.grid);
 
-        mSpinner = (Spinner) findViewById(R.id.sp_sortBy);
-
     }
 
-    private void getQuery() {
-
-        String tempSortBy = mSpinner.getSelectedItem().toString();
-
-        if (tempSortBy.equals(mArrayAdapter.getItem(0))) mQuery = "popular";
-        else mQuery = "top_rated";
-
-    }
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
