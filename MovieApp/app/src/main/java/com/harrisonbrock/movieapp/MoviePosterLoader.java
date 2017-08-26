@@ -4,7 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import com.harrisonbrock.movieapp.Model.Movie;
-import com.harrisonbrock.movieapp.Network.DataManager;
+import com.harrisonbrock.movieapp.Network.NetworkUtils;
 
 import java.util.List;
 
@@ -33,6 +33,6 @@ public class MoviePosterLoader extends AsyncTaskLoader<List<Movie>> {
 
         if (mSortBy == null) return null;
 
-        return DataManager.getInstance(mSortBy).getMovies();
+        return NetworkUtils.fetchMovieData(mSortBy);
     }
 }

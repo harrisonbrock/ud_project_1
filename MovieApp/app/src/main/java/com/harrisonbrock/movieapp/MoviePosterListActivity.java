@@ -53,6 +53,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
                 Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
                 intent.putExtra(MovieDetailActivity.MOVIE_POSITION, position);
+                intent.putExtra(MovieDetailActivity.MOVIE_QUERY, mQuery);
                 startActivity(intent);
             }
         });
@@ -73,12 +74,14 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
         if (id == R.id.mm_top_rated) {
             Log.v("Options Item", "Clicked");
            mQuery = "top_rated";
+            mAdapter.clear();
             getLoaderManager()
                     .restartLoader(1, null, MoviePosterListActivity.this);
         }
 
         if (id == R.id.mm_popular) {
             mQuery = "popular";
+            mAdapter.clear();
             getLoaderManager()
                     .restartLoader(1, null, MoviePosterListActivity.this);
         }

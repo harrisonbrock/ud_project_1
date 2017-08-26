@@ -7,8 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.harrisonbrock.movieapp.Model.Movie;
-import com.harrisonbrock.movieapp.Network.DataManager;
 import com.harrisonbrock.movieapp.Network.MovieUtils;
+import com.harrisonbrock.movieapp.Network.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -18,7 +18,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mReleaseDate;
     private TextView mOverview;
     private ImageView mPoster;
-    public static final String MOVIE_POSITION = "com.harrisonbrokc.moveApp.MOVIE_PORTION";
+    public static final String MOVIE_POSITION = "com.harrisonbrock.movieApp.MOVIE_PORTION";
+    public static final String MOVIE_QUERY = "com.harrisonbrock.movieApp.MOVIE_QUERY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         int index = intent.getIntExtra(MOVIE_POSITION, -1);
-
-        Movie movie = DataManager.getInstance().getMovies().get(index);
+        String query = intent.getStringExtra(MOVIE_QUERY);
+        Movie movie = NetworkUtils.fetchMovieData(query).get(index);
 
         mTitle.setText(movie.getTitle());
 
