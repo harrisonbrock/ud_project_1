@@ -22,19 +22,24 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     private GridView mGridView;
     private MoviePosterAdapter mAdapter;
-    private String mQuery;
+    private String mSortMoviesBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_poster_list);
 
-        mQuery = "popular";
+        mSortMoviesBy = "popular";
+        // create UI
         createUI();
+        // setup adapter
         setupAdapter();
+        // start Loader Manager
         startLoader();
 
-        // onItemClick
+        // set on click listener
+        // when a user clicks on a poster the user
+        // will be sent to a detail screen for that movie
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,22 +51,40 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     }
 
+
+    /**
+     * startLoader
+     * This will start the Loader Manager
+     */
     private void startLoader() {
         final LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
     }
 
+
+    /**
+     * setup Adapter
+     * This will create and setup Adapter
+     */
     private void setupAdapter() {
 
         mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
 
         mGridView.setAdapter(mAdapter);
     }
+
+
+    /**
+     * createMovieDetail
+     * This will pass the movie's data to the detail screen
+     * @param position this is the position of the item in the list
+     * @return a new Intent
+     */
     private Intent createMovieDetail(int position) {
 
         Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
 
-        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_TITEL, mAdapter
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_TITLE, mAdapter
                 .getItem(position).getTitle());
 
         intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_RELEASE_DATE, mAdapter
@@ -90,25 +113,37 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
         int id = item.getItemId();
 
+        // if top top rated selected
         if (id == R.id.mm_top_rated) {
             Log.v("Options Item", "Clicked");
-           mQuery = "top_rated";
+           mSortMoviesBy = "top_rated";
             restartLoader();
         }
 
+        // if popular is selected
         if (id == R.id.mm_popular) {
-            mQuery = "popular";
+            mSortMoviesBy = "popular";
             restartLoader();
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * restartLoader
+     * This will clear the adapter and restart the loader
+     */
     private void restartLoader() {
         mAdapter.clear();
         getLoaderManager()
                 .restartLoader(1, null, MoviePosterListActivity.this);
     }
 
+
+    /**
+     * createUI
+     * This will create the UI for the screen
+     */
     private void createUI() {
 
         mGridView = (GridView) findViewById(R.id.grid);
@@ -117,7 +152,7 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
-        return new MoviePosterLoader(this, mQuery);
+        return new MoviePosterLoader(this, mSortMoviesBy);
     }
 
     @Override

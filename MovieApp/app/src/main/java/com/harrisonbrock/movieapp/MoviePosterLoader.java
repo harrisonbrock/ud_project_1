@@ -15,12 +15,12 @@ import java.util.List;
 public class MoviePosterLoader extends AsyncTaskLoader<List<Movie>> {
 
     private static final String LOG_TAG = MoviePosterLoader.class.getSimpleName();
-    private String mSortBy;
+    private String mSortMoviesBy;
 
-    public MoviePosterLoader(Context context, String sortBy) {
+    public MoviePosterLoader(Context context, String sortMoviesBy) {
         super(context);
 
-        mSortBy = sortBy;
+        mSortMoviesBy = sortMoviesBy;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class MoviePosterLoader extends AsyncTaskLoader<List<Movie>> {
     @Override
     public List<Movie> loadInBackground() {
 
-        if (mSortBy == null) return null;
+        if (mSortMoviesBy == null) return null;
 
-        return NetworkUtils.fetchMovieData(mSortBy);
+        return NetworkUtils.fetchMovieData(mSortMoviesBy);
     }
 }

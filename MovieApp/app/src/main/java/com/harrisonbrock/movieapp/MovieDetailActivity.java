@@ -17,11 +17,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mOverview;
     private ImageView mPoster;
 
-    public static final String CURRENT_MOVIE_TITEL = "com.harrisonbrock.com.CURRENT_MOVIE_TITEL";
-    public static final String CURRENT_MOVIE_RELEASE_DATE = "com.harrisonbrock.com.CURRENT_MOVIE_RELEASE_DATE";
-    public static final String CURRENT_MOVIE_OVERVIEW = "com.harrisonbrock.CURRENT_MOVIE_OVERVIEW";
-    public static final String CURRENT_MOVIE_POPULARITY = "com.harrisonbrock.CURRENT_MOIVE_POPULARITY";
-    public static final String CURRENT_MOVIE_POSTER_URL = "com.harrisonbrock.CURRENT_MOVIE_POSTER_URL";
+    // String keys to use to get Intent values
+    public static final String CURRENT_MOVIE_TITLE = "com.harrisonbrock.MovieAPP.CURRENT_MOVIE_TITLE";
+    public static final String CURRENT_MOVIE_RELEASE_DATE = "com.harrisonbrock.MovieAPP.CURRENT_MOVIE_RELEASE_DATE";
+    public static final String CURRENT_MOVIE_OVERVIEW = "com.harrisonbrock.MovieAPP.CURRENT_MOVIE_OVERVIEW";
+    public static final String CURRENT_MOVIE_POPULARITY = "com.harrisonbrock.MovieAPP.CURRENT_MOIVE_POPULARITY";
+    public static final String CURRENT_MOVIE_POSTER_URL = "com.harrisonbrock.MovieAPP.CURRENT_MOVIE_POSTER_URL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,20 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         createUI();
 
-        getMovieDetails();
+        setMovieDetails();
 
     }
 
-    private void getMovieDetails() {
+
+    /**
+     * setMovieDetails
+     * This will get the movie details from the Intent
+     */
+    private void setMovieDetails() {
+
         Intent intent = getIntent();
 
-
-        String title = intent.getStringExtra(CURRENT_MOVIE_TITEL);
+        String title = intent.getStringExtra(CURRENT_MOVIE_TITLE);
         String releaseDate = intent.getStringExtra(CURRENT_MOVIE_RELEASE_DATE);
         String overview = intent.getStringExtra(CURRENT_MOVIE_OVERVIEW);
         double popularity = intent.getDoubleExtra(CURRENT_MOVIE_POPULARITY, -1);
@@ -46,9 +52,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mTitle.setText(title);
 
-        mPopText.setText(String.valueOf(popularity));
+        mPopText.setText("Popularity: " + String.valueOf(popularity));
 
-        mReleaseDate.setText(releaseDate);
+        mReleaseDate.setText("Release Date: " + releaseDate);
 
         mOverview.setText(overview);
 
@@ -59,6 +65,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .into(mPoster);
     }
 
+
+    /**
+     * CreateUI
+     * This will create the UI for the screen
+     */
     private void createUI() {
 
 
