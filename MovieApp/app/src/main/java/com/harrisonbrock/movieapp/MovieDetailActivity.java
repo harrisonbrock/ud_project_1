@@ -16,8 +16,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mReleaseDate;
     private TextView mOverview;
     private ImageView mPoster;
-    public static final String MOVIE_POSITION = "com.harrisonbrock.movieApp.MOVIE_PORTION";
-    public static final String MOVIE_QUERY = "com.harrisonbrock.movieApp.MOVIE_QUERY";
+
     public static final String CURRENT_MOVIE_TITEL = "com.harrisonbrock.com.CURRENT_MOVIE_TITEL";
     public static final String CURRENT_MOVIE_RELEASE_DATE = "com.harrisonbrock.com.CURRENT_MOVIE_RELEASE_DATE";
     public static final String CURRENT_MOVIE_OVERVIEW = "com.harrisonbrock.CURRENT_MOVIE_OVERVIEW";
@@ -31,6 +30,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         createUI();
 
+        getMovieDetails();
+
+    }
+
+    private void getMovieDetails() {
         Intent intent = getIntent();
 
 
@@ -44,7 +48,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mPopText.setText(String.valueOf(popularity));
 
-       mReleaseDate.setText(releaseDate);
+        mReleaseDate.setText(releaseDate);
 
         mOverview.setText(overview);
 
@@ -53,7 +57,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 + "w185"
                 + posterUrl)
                 .into(mPoster);
-
     }
 
     private void createUI() {

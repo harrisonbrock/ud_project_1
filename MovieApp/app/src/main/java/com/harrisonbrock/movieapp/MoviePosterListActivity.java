@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.harrisonbrock.movieapp.Model.Movie;
@@ -24,54 +23,60 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
     private GridView mGridView;
     private MoviePosterAdapter mAdapter;
     private String mQuery;
-    private List<String> mSortByList;
-    private ArrayAdapter<String> mArrayAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_poster_list);
 
-
-        createUI();
-
         mQuery = "popular";
-
-
-        mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
-
-        mGridView.setAdapter(mAdapter);
-
-        final LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(1, null, this);
+        createUI();
+        setupAdapter();
+        startLoader();
 
         // onItemClick
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
-
-                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_TITEL, mAdapter
-                        .getItem(position).getTitle());
-
-                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_RELEASE_DATE, mAdapter
-                        .getItem(position).getRelaseDate());
-
-                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_OVERVIEW, mAdapter
-                .getItem(position).getOverview());
-
-                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POPULARITY, mAdapter
-                .getItem(position).getPopularity());
-
-                intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POSTER_URL, mAdapter
-                .getItem(position).getPosterUrl());
-
+                Intent intent = createMovieDetail(position);
                 startActivity(intent);
             }
         });
 
+    }
+
+    private void startLoader() {
+        final LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(1, null, this);
+    }
+
+    private void setupAdapter() {
+
+        mAdapter = new MoviePosterAdapter(this, new ArrayList<Movie>());
+
+        mGridView.setAdapter(mAdapter);
+    }
+    private Intent createMovieDetail(int position) {
+
+        Intent intent = new Intent(MoviePosterListActivity.this, MovieDetailActivity.class);
+
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_TITEL, mAdapter
+                .getItem(position).getTitle());
+
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_RELEASE_DATE, mAdapter
+                .getItem(position).getRelaseDate());
+
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_OVERVIEW, mAdapter
+                .getItem(position).getOverview());
+
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POPULARITY, mAdapter
+                .getItem(position).getPopularity());
+
+        intent.putExtra(MovieDetailActivity.CURRENT_MOVIE_POSTER_URL, mAdapter
+                .getItem(position).getPosterUrl());
+
+        return intent;
     }
 
     @Override
@@ -88,18 +93,20 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
         if (id == R.id.mm_top_rated) {
             Log.v("Options Item", "Clicked");
            mQuery = "top_rated";
-            mAdapter.clear();
-            getLoaderManager()
-                    .restartLoader(1, null, MoviePosterListActivity.this);
+            restartLoader();
         }
 
         if (id == R.id.mm_popular) {
             mQuery = "popular";
-            mAdapter.clear();
-            getLoaderManager()
-                    .restartLoader(1, null, MoviePosterListActivity.this);
+            restartLoader();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void restartLoader() {
+        mAdapter.clear();
+        getLoaderManager()
+                .restartLoader(1, null, MoviePosterListActivity.this);
     }
 
     private void createUI() {
@@ -107,7 +114,6 @@ implements LoaderManager.LoaderCallbacks<List<Movie>>{
         mGridView = (GridView) findViewById(R.id.grid);
 
     }
-
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
